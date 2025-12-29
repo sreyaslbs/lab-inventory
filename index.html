@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4F46E5">
+    <meta name="description" content="Laboratory Inventory Management System">
+    <title>Lab Inventory System</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <img src="emblem.png" alt="School Emblem" onerror="this.style.display='none'">
+            <h1>Laboratory Inventory System</h1>
+        </header>
+
+        <!-- Tab Navigation -->
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="general-science">
+                <span class="tab-icon">🔬</span>
+                <span class="tab-label">General Science</span>
+            </button>
+            <button class="tab-btn" data-tab="biology">
+                <span class="tab-icon">🧬</span>
+                <span class="tab-label">Biology</span>
+            </button>
+            <button class="tab-btn" data-tab="physics">
+                <span class="tab-icon">⚛️</span>
+                <span class="tab-label">Physics</span>
+            </button>
+            <button class="tab-btn" data-tab="chemistry">
+                <span class="tab-icon">⚗️</span>
+                <span class="tab-label">Chemistry</span>
+            </button>
+            <button class="tab-btn" data-tab="reports">
+                <span class="tab-icon">📊</span>
+                <span class="tab-label">Reports</span>
+            </button>
+            <button class="tab-btn" data-tab="settings">
+                <span class="tab-icon">⚙️</span>
+                <span class="tab-label">Settings</span>
+            </button>
+            <button class="tab-btn" data-tab="profile">
+                <span class="tab-icon">👤</span>
+                <span class="tab-label">Profile</span>
+            </button>
+        </nav>
+
+        <!-- Tab Content -->
+        <main class="tab-content">
+            <!-- General Science Tab -->
+            <section id="general-science-tab" class="tab-pane active" data-subject="general_science">
+                <div class="section-header">
+                    <h2>General Science Inventory</h2>
+                </div>
+
+                <div class="card">
+                    <div class="inventory-controls">
+                        <div class="search-filter-group">
+                            <input type="text" class="search-input" placeholder="Search by item number or name..."
+                                data-subject="general_science">
+                            <select class="filter-select" data-subject="general_science">
+                                <option value="all">All Items</option>
+                                <option value="low-stock">Low Stock</option>
+                                <option value="out-of-stock">Out of Stock</option>
+                            </select>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary add-item-btn" data-subject="general_science">
+                                + Add Item
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="inventory-table-container">
+                        <table class="inventory-table">
+                            <thead>
+                                <tr>
+                                    <th>Item #</th>
+                                    <th>Particulars</th>
+                                    <th>Quantity</th>
+                                    <th>Price (₹)</th>
+                                    <th>Remarks</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="inventory-list" data-subject="general_science">
+                                <tr class="empty-state">
+                                    <td colspan="6">No items in inventory. Click "+ Add Item" to get started.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Biology Tab -->
+            <section id="biology-tab" class="tab-pane" data-subject="biology">
+                <div class="section-header">
+                    <h2>Biology Inventory</h2>
+                </div>
+
+                <div class="card">
+                    <div class="inventory-controls">
+                        <div class="search-filter-group">
+                            <input type="text" class="search-input" placeholder="Search by item number or name..."
+                                data-subject="biology">
+                            <select class="filter-select" data-subject="biology">
+                                <option value="all">All Items</option>
+                                <option value="low-stock">Low Stock</option>
+                                <option value="out-of-stock">Out of Stock</option>
+                            </select>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary add-item-btn" data-subject="biology">
+                                + Add Item
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="inventory-table-container">
+                        <table class="inventory-table">
+                            <thead>
+                                <tr>
+                                    <th>Item #</th>
+                                    <th>Particulars</th>
+                                    <th>Quantity</th>
+                                    <th>Price (₹)</th>
+                                    <th>Remarks</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="inventory-list" data-subject="biology">
+                                <tr class="empty-state">
+                                    <td colspan="6">No items in inventory. Click "+ Add Item" to get started.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Physics Tab -->
+            <section id="physics-tab" class="tab-pane" data-subject="physics">
+                <div class="section-header">
+                    <h2>Physics Inventory</h2>
+                </div>
+
+                <div class="card">
+                    <div class="inventory-controls">
+                        <div class="search-filter-group">
+                            <input type="text" class="search-input" placeholder="Search by item number or name..."
+                                data-subject="physics">
+                            <select class="filter-select" data-subject="physics">
+                                <option value="all">All Items</option>
+                                <option value="low-stock">Low Stock</option>
+                                <option value="out-of-stock">Out of Stock</option>
+                            </select>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary add-item-btn" data-subject="physics">
+                                + Add Item
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="inventory-table-container">
+                        <table class="inventory-table">
+                            <thead>
+                                <tr>
+                                    <th>Item #</th>
+                                    <th>Particulars</th>
+                                    <th>Quantity</th>
+                                    <th>Price (₹)</th>
+                                    <th>Remarks</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="inventory-list" data-subject="physics">
+                                <tr class="empty-state">
+                                    <td colspan="6">No items in inventory. Click "+ Add Item" to get started.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chemistry Tab -->
+            <section id="chemistry-tab" class="tab-pane" data-subject="chemistry">
+                <div class="section-header">
+                    <h2>Chemistry Inventory</h2>
+                </div>
+
+                <div class="card">
+                    <div class="inventory-controls">
+                        <div class="search-filter-group">
+                            <input type="text" class="search-input" placeholder="Search by item number or name..."
+                                data-subject="chemistry">
+                            <select class="filter-select" data-subject="chemistry">
+                                <option value="all">All Items</option>
+                                <option value="low-stock">Low Stock</option>
+                                <option value="out-of-stock">Out of Stock</option>
+                            </select>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary add-item-btn" data-subject="chemistry">
+                                + Add Item
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="inventory-table-container">
+                        <table class="inventory-table">
+                            <thead>
+                                <tr>
+                                    <th>Item #</th>
+                                    <th>Particulars</th>
+                                    <th>Quantity</th>
+                                    <th>Price (₹)</th>
+                                    <th>Remarks</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="inventory-list" data-subject="chemistry">
+                                <tr class="empty-state">
+                                    <td colspan="6">No items in inventory. Click "+ Add Item" to get started.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reports Tab -->
+            <section id="reports-tab" class="tab-pane">
+                <div class="section-header">
+                    <h2>Inventory Reports</h2>
+                </div>
+
+                <div class="card">
+                    <h3>Generate Report</h3>
+
+                    <div class="form-group">
+                        <label for="report-subject">Subject</label>
+                        <select id="report-subject" class="input-field">
+                            <option value="all">All Subjects</option>
+                            <option value="general_science">General Science</option>
+                            <option value="biology">Biology</option>
+                            <option value="physics">Physics</option>
+                            <option value="chemistry">Chemistry</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="report-type">Report Type</label>
+                        <select id="report-type" class="input-field">
+                            <option value="current-stock">Current Stock</option>
+                            <option value="low-stock">Low Stock Items</option>
+                            <option value="transactions">Transaction History</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="date-range-group" style="display: none;">
+                        <label>Date Range</label>
+                        <div class="date-range">
+                            <input type="date" id="report-date-from" class="input-field">
+                            <span>to</span>
+                            <input type="date" id="report-date-to" class="input-field">
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="generate-report-btn" class="btn btn-primary">Generate Report</button>
+                        <button id="export-excel-btn" class="btn btn-secondary" style="display: none;">
+                            📥 Export to Excel
+                        </button>
+                        <button id="print-report-btn" class="btn btn-secondary" style="display: none;">
+                            🖨️ Print
+                        </button>
+                    </div>
+                </div>
+
+                <div id="report-container" class="report-container"></div>
+            </section>
+
+            <!-- Settings Tab -->
+            <section id="settings-tab" class="tab-pane">
+                <div class="section-header">
+                    <h2>Settings</h2>
+                </div>
+
+                <!-- Teachers Management -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Teachers (Admin Access)</h3>
+                        <button id="add-teacher-btn" class="btn btn-primary">+ Add Teacher</button>
+                    </div>
+
+                    <p style="color: var(--gray); font-size: 0.9rem; margin-bottom: 1rem;">
+                        Teachers listed here have full admin access to the inventory system.
+                    </p>
+
+                    <div id="add-teacher-form" class="add-form" style="display: none; margin-bottom: 1rem;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="teacher-name">Teacher Name</label>
+                                <input type="text" id="teacher-name" placeholder="Full name" class="input-field">
+                            </div>
+                            <div class="form-group">
+                                <label for="teacher-email">Email</label>
+                                <input type="email" id="teacher-email" placeholder="teacher@gmail.com"
+                                    class="input-field">
+                            </div>
+                            <button id="save-teacher-btn" class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
+
+                    <div id="teachers-list" class="list-container">
+                        <p class="empty-state">Loading teachers...</p>
+                    </div>
+                </div>
+
+                <!-- Lab In-Charges Management -->
+                <div class="card" style="margin-top: 1.5rem;">
+                    <h3>Lab In-Charges</h3>
+                    <p style="color: var(--gray); font-size: 0.9rem; margin-bottom: 1rem;">
+                        Assign up to 3 lab assistants/students per subject with permission to update stock.
+                    </p>
+
+                    <!-- General Science Lab In-Charges -->
+                    <div class="lab-incharge-section">
+                        <h4>🔬 General Science</h4>
+                        <button class="btn btn-sm btn-secondary manage-incharge-btn"
+                            data-subject="general_science">Manage</button>
+                    </div>
+
+                    <!-- Biology Lab In-Charges -->
+                    <div class="lab-incharge-section">
+                        <h4>🧬 Biology</h4>
+                        <button class="btn btn-sm btn-secondary manage-incharge-btn"
+                            data-subject="biology">Manage</button>
+                    </div>
+
+                    <!-- Physics Lab In-Charges -->
+                    <div class="lab-incharge-section">
+                        <h4>⚛️ Physics</h4>
+                        <button class="btn btn-sm btn-secondary manage-incharge-btn"
+                            data-subject="physics">Manage</button>
+                    </div>
+
+                    <!-- Chemistry Lab In-Charges -->
+                    <div class="lab-incharge-section">
+                        <h4>⚗️ Chemistry</h4>
+                        <button class="btn btn-sm btn-secondary manage-incharge-btn"
+                            data-subject="chemistry">Manage</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Tab -->
+            <section id="profile-tab" class="tab-pane">
+                <div class="section-header">
+                    <h2>My Profile</h2>
+                </div>
+
+                <div class="card">
+                    <div id="user-profile"
+                        style="margin-top: 1rem; margin-bottom: 2rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem;">
+                        <img id="profile-pic" src="" alt="Profile Picture" style="display: none;">
+                        <div class="profile-info">
+                            <p><strong>Name:</strong> <span id="profile-name">Loading...</span></p>
+                            <p><strong>Email:</strong> <span id="profile-email">Loading...</span></p>
+                            <p><strong>Role:</strong> <span id="profile-role">Loading...</span></p>
+                        </div>
+                    </div>
+
+                    <button id="logout-btn" class="btn btn-danger" style="width: 100%;">
+                        Sign Out
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal: Add/Edit Item -->
+    <div id="item-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="item-modal-title">Add Item</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="item-number">Item Number</label>
+                    <input type="text" id="item-number" placeholder="e.g., GS-001" class="input-field">
+                </div>
+                <div class="form-group">
+                    <label for="item-particulars">Particulars (Item Name/Description)</label>
+                    <input type="text" id="item-particulars" placeholder="e.g., Beaker 250ml" class="input-field">
+                </div>
+                <div class="form-group">
+                    <label for="item-quantity">Quantity</label>
+                    <input type="number" id="item-quantity" placeholder="0" class="input-field" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="item-price">Price per Unit (₹)</label>
+                    <input type="number" id="item-price" placeholder="0.00" class="input-field" min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="item-min-stock">Minimum Stock Level (for alerts)</label>
+                    <input type="number" id="item-min-stock" placeholder="10" class="input-field" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="item-remarks">Remarks</label>
+                    <textarea id="item-remarks" placeholder="Additional notes..." class="input-field"
+                        rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-item-btn" class="btn btn-secondary">Cancel</button>
+                <button id="save-item-btn" class="btn btn-primary">Save Item</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Update Stock -->
+    <div id="stock-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="stock-modal-title">Update Stock</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Item:</strong> <span id="stock-item-name"></span></p>
+                <p><strong>Current Quantity:</strong> <span id="stock-current-qty"></span></p>
+
+                <div class="form-group">
+                    <label for="stock-action">Action</label>
+                    <select id="stock-action" class="input-field">
+                        <option value="add">Add Stock</option>
+                        <option value="breakage">Record Breakage/Spoilage</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="stock-quantity">Quantity</label>
+                    <input type="number" id="stock-quantity" placeholder="0" class="input-field" min="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="stock-reason">Reason/Description</label>
+                    <textarea id="stock-reason" placeholder="e.g., New purchase, Broken during experiment..."
+                        class="input-field" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-stock-btn" class="btn btn-secondary">Cancel</button>
+                <button id="save-stock-btn" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Manage Lab In-Charges -->
+    <div id="incharge-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="incharge-modal-title">Manage Lab In-Charges</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--gray); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Assign up to 3 assistants/students. They can update stock and record breakages.
+                </p>
+
+                <table class="incharge-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email (Required for Access)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="incharge-rows">
+                        <tr>
+                            <td><input type="text" placeholder="Name 1" data-incharge="name"></td>
+                            <td><input type="email" placeholder="email@example.com" data-incharge="email"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" placeholder="Name 2" data-incharge="name"></td>
+                            <td><input type="email" placeholder="email@example.com" data-incharge="email"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" placeholder="Name 3" data-incharge="name"></td>
+                            <td><input type="email" placeholder="email@example.com" data-incharge="email"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-incharge-btn" class="btn btn-secondary">Cancel</button>
+                <button id="save-incharge-btn" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Overlay -->
+    <div id="login-overlay" class="login-overlay">
+        <div class="login-card">
+            <img src="emblem.png" alt="School Emblem" class="login-logo" onerror="this.style.display='none'">
+            <h2>Welcome</h2>
+            <p>Please sign in to access the Laboratory Inventory System</p>
+            <button id="google-login-btn" class="google-btn">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                <span>Sign in with Google</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast-notification" class="toast-notification"></div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"
+        crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js" crossorigin="anonymous"></script>
+
+    <!-- Firebase Config -->
+    <script src="firebase-config.js"></script>
+
+    <!-- SheetJS for Excel Export -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+
+    <!-- App Logic -->
+    <script src="app.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
+</body>
+
+</html>
