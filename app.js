@@ -123,6 +123,7 @@ const App = {
             loginOverlay: document.getElementById('login-overlay'),
             loginBtn: document.getElementById('google-login-btn'),
             logoutBtn: document.getElementById('logout-btn'),
+            updateAppBtn: document.getElementById('update-app-btn'),
 
             // Profile
             profileName: document.getElementById('profile-name'),
@@ -187,7 +188,11 @@ const App = {
     bindEvents() {
         // Auth
         this.dom.loginBtn.addEventListener('click', () => this.login());
+        this.dom.loginBtn.addEventListener('click', () => this.login());
         this.dom.logoutBtn.addEventListener('click', () => this.logout());
+        if (this.dom.updateAppBtn) {
+            this.dom.updateAppBtn.addEventListener('click', () => this.updateApp());
+        }
 
         // Teachers
         if (this.dom.addTeacherBtn) {
@@ -323,6 +328,35 @@ const App = {
         }
     },
 
+    async updateApp() {
+        if (!confirm("This will refresh the app to get the latest version. Continue?")) return;
+
+        try {
+            // Unregister Service Workers
+            if ('serviceWorker' in navigator) {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                for (const registration of registrations) {
+                    await registration.unregister();
+                }
+            }
+
+            // Clear Cache
+            if ('caches' in window) {
+                const cacheNames = await caches.keys();
+                await Promise.all(cacheNames.map(name => caches.delete(name)));
+            }
+
+            this.showToast("Updating app...");
+            setTimeout(() => {
+                window.location.reload(true);
+            }, 1000);
+
+        } catch (e) {
+            console.error("Update failed", e);
+            window.location.reload(true);
+        }
+    },
+
     getUserRole(subject = null) {
         if (!this.state.currentUser) return 'GUEST';
 
@@ -406,7 +440,6 @@ const App = {
                 this.switchTab('reports');
             }
         } else if (role === 'LAB_INCHARGE') {
-            addItemBtns.forEach(btn => btn.style.display = 'none');
             if (settingsTabBtn) settingsTabBtn.style.display = 'none';
 
             // Show tabs ONLY for assigned subjects
@@ -419,6 +452,21 @@ const App = {
 
                 if (isAssigned) {
                     btn.style.display = 'flex';
+                } else {
+                    btn.style.display = 'none';
+                }
+            });
+
+            // Show 'Add Item' buttons ONLY for assigned subjects
+            addItemBtns.forEach(btn => {
+                const subject = btn.dataset.subject;
+                const incharges = this.state.labInCharges[subject] || [];
+                const isAssigned = incharges.some(ic =>
+                    ic.email && ic.email.toLowerCase() === this.state.currentUser.email.toLowerCase()
+                );
+
+                if (isAssigned) {
+                    btn.style.display = 'inline-flex';
                 } else {
                     btn.style.display = 'none';
                 }
@@ -689,7 +737,7 @@ const App = {
             }
 
             const role = this.getUserRole(subject);
-            const canEdit = role === 'ADMIN';
+            const canEdit = role === 'ADMIN' || role === 'LAB_INCHARGE';
             const canUpdate = role === 'ADMIN' || role === 'LAB_INCHARGE';
 
             row.innerHTML = `
