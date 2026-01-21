@@ -101,7 +101,8 @@ const App = {
         currentSubject: 'general_science',
         editingItem: null,
         editingSubject: null,
-        currentStockItem: null
+        currentStockItem: null,
+        isLoggingIn: false
     },
 
     admins: [
@@ -187,7 +188,6 @@ const App = {
 
     bindEvents() {
         // Auth
-        this.dom.loginBtn.addEventListener('click', () => this.login());
         this.dom.loginBtn.addEventListener('click', () => this.login());
         this.dom.logoutBtn.addEventListener('click', () => this.logout());
         if (this.dom.updateAppBtn) {
@@ -311,12 +311,24 @@ const App = {
     },
 
     async login() {
+        if (this.state.isLoggingIn) return;
+        this.state.isLoggingIn = true;
+        this.dom.loginBtn.disabled = true;
+        this.dom.loginBtn.textContent = 'Signing in...';
+
         const provider = new firebase.auth.GoogleAuthProvider();
         try {
             await auth.signInWithPopup(provider);
         } catch (error) {
             console.error("Login error:", error);
-            alert("Login failed: " + error.message);
+            // Only alert if it's not a user cancellation
+            if (error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request') {
+                alert("Login failed: " + error.message);
+            }
+        } finally {
+            this.state.isLoggingIn = false;
+            this.dom.loginBtn.disabled = false;
+            this.dom.loginBtn.textContent = 'Sign in with Google';
         }
     },
 
@@ -362,20 +374,21 @@ const App = {
 
         const email = this.state.currentUser.email.toLowerCase();
 
-        // Check if admin/teacher
-        const isTeacher = this.state.teachers.some(t => t.email.toLowerCase() === email);
-        if (isTeacher) return 'ADMIN';
+        // Check if admin (Hardcoded or in Teachers list)
+        const isAdmin = this.admins.some(a => a.toLowerCase().trim() === email.trim()) ||
+            this.state.teachers.some(t => t.email.toLowerCase().trim() === email.trim());
+        if (isAdmin) return 'ADMIN';
 
         // Check if lab in-charge for specific subject
         if (subject) {
             const incharges = this.state.labInCharges[subject] || [];
-            const isInCharge = incharges.some(ic => ic.email && ic.email.toLowerCase() === email);
+            const isInCharge = Array.isArray(incharges) && incharges.some(ic => ic && ic.email && ic.email.toLowerCase().trim() === email.trim());
             if (isInCharge) return 'LAB_INCHARGE';
         } else {
             // Check if lab in-charge for any subject
             for (const subj in this.state.labInCharges) {
                 const incharges = this.state.labInCharges[subj] || [];
-                const isInCharge = incharges.some(ic => ic.email && ic.email.toLowerCase() === email);
+                const isInCharge = Array.isArray(incharges) && incharges.some(ic => ic && ic.email && ic.email.toLowerCase().trim() === email.trim());
                 if (isInCharge) return 'LAB_INCHARGE';
             }
         }
@@ -481,8 +494,8 @@ const App = {
 
                 if (isSubjectTab) {
                     const incharges = this.state.labInCharges[activeSubject] || [];
-                    const isAssigned = incharges.some(ic =>
-                        ic.email && ic.email.toLowerCase() === this.state.currentUser.email.toLowerCase()
+                    const isAssigned = Array.isArray(incharges) && incharges.some(ic =>
+                        ic && ic.email && ic.email.toLowerCase().trim() === this.state.currentUser.email.toLowerCase().trim()
                     );
                     if (!isAssigned) {
                         this.switchTab('reports'); // Redirect to safe tab
@@ -508,16 +521,6 @@ const App = {
             teachersData = Object.values(teachersData);
         }
 
-        // Auto-migrate hardcoded admins
-        if (teachersData.length === 0 && this.admins.length > 0) {
-            teachersData = this.admins.map(email => ({
-                id: Storage.generateId(),
-                name: email.split('@')[0],
-                email: email
-            }));
-            Storage.saveTeachers(teachersData);
-        }
-
         this.state.teachers = teachersData;
 
         // Load lab in-charges
@@ -535,6 +538,16 @@ const App = {
             physics: [],
             chemistry: []
         };
+
+        // Normalize lab in-charges to arrays
+        for (const subject in this.state.labInCharges) {
+            let items = this.state.labInCharges[subject];
+            if (items && typeof items === 'object' && !Array.isArray(items)) {
+                this.state.labInCharges[subject] = Object.values(items);
+            } else if (!items) {
+                this.state.labInCharges[subject] = [];
+            }
+        }
 
         // Convert objects to arrays if needed
         for (const subject in this.state.inventory) {
@@ -621,12 +634,17 @@ const App = {
 
         this.dom.teachersList.innerHTML = '';
 
-        if (this.state.teachers.length === 0) {
+        // Filter out hardcoded admins from the display
+        const displayTeachers = this.state.teachers.filter(teacher =>
+            !this.admins.some(adminEmail => adminEmail.toLowerCase().trim() === teacher.email.toLowerCase().trim())
+        );
+
+        if (displayTeachers.length === 0) {
             this.dom.teachersList.innerHTML = '<p class="empty-state">No teachers added yet.</p>';
             return;
         }
 
-        this.state.teachers.forEach(teacher => {
+        displayTeachers.forEach(teacher => {
             const div = document.createElement('div');
             div.className = 'list-item';
             div.innerHTML = `
